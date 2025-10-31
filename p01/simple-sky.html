@@ -5,11 +5,28 @@
   </head>
   <body>
   <!-- <script src="../js/aframe.min.js"></script> -->
+   <script>
+     document.addEventListener('DOMContentLoaded', () => {
+        const isLocal = ['localhost','127.0.0.1','[::1]'].includes(location.hostname);
+        const src = isLocal
+          ? 'http://localhost:8000/p01/IMAGES/heic2007a.jpg'
+          : './IMAGES/heic2007a.jpg';
+
+        const img = document.getElementById('nebula');
+        img.setAttribute('src', src);        // set it
+
+        // once assets are ready, use it
+        document.querySelector('a-assets').addEventListener('loaded', () => {
+          document.getElementById('mySky')
+            .setAttribute('material', 'src: #nebula');
+        });
+      });
+      </script>
     <a-assets>
-        <img id="nebula" src="http://localhost:8000/p01/IMAGES/heic2007a.jpg" crossorigin="anonymous">
+        <img id="nebula" src="" crossorigin="anonymous">
       </a-assets>
       <a-scene>
-        <a-sky
+        <a-sky id="mySky"
           src="#nebula"	position="-2.5  0 -1.5"
         ></a-sky>	  
         <a-text
