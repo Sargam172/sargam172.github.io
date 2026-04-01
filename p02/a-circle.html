@@ -1,49 +1,189 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8">
+    <title>Two intersecting planes with Custom Components</title>
     <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
+    <script>
+      // Custom component for oscillating rotation
+      AFRAME.registerComponent('oscillate-rotate', {
+        schema: {
+          speed: { type: 'number', default: 1 },
+          amplitude: { type: 'number', default: 45 },
+          axis: { type: 'string', default: 'x' }
+        },
+        
+        tick: function(time, timeDelta) {
+          let angle = Math.sin(time / 1000 * this.data.speed) * this.data.amplitude;
+          let rotation = { x: 0, y: 0, z: 0 };
+          
+          if (this.data.axis === 'x') rotation.x = angle;
+          else if (this.data.axis === 'y') rotation.y = angle;
+          else if (this.data.axis === 'z') rotation.z = angle;
+          
+          // Preserve other rotation values
+          let currentRot = this.el.getAttribute('rotation') || { x: 0, y: 0, z: 0 };
+          if (this.data.axis !== 'x') rotation.x = currentRot.x;
+          if (this.data.axis !== 'y') rotation.y = currentRot.y;
+          if (this.data.axis !== 'z') rotation.z = currentRot.z;
+          
+          this.el.setAttribute('rotation', rotation);
+        }
+      });
+      
+      // Custom component for pulsing scale
+      AFRAME.registerComponent('pulse', {
+        schema: {
+          speed: { type: 'number', default: 2 },
+          intensity: { type: 'number', default: 0.2 }
+        },
+        
+        tick: function(time, timeDelta) {
+          let scale = 1 + Math.sin(time / 1000 * this.data.speed) * this.data.intensity;
+          this.el.setAttribute('scale', { x: scale, y: scale, z: scale });
+        }
+      });
+      
+      // Custom component for color transition
+      AFRAME.registerComponent('color-transition', {
+        schema: {
+          speed: { type: 'number', default: 1 },
+          color1: { type: 'color', default: '#ff0000' },
+          color2: { type: 'color', default: '#0000ff' }
+        },
+        
+        tick: function(time, timeDelta) {
+          // Interpolate between two colors
+          let t = (Math.sin(time / 1000 * this.data.speed) + 1) / 2;
+          
+          // Parse colors
+          let c1 = this.hexToRgb(this.data.color1);
+          let c2 = this.hexToRgb(this.data.color2);
+          
+          // Interpolate RGB values
+          let r = Math.floor(c1.r + (c2.r - c1.r) * t);
+          let g = Math.floor(c1.g + (c2.g - c1.g) * t);
+          let b = Math.floor(c1.b + (c2.b - c1.b) * t);
+          
+          this.el.setAttribute('color', `rgb(${r}, ${g}, ${b})`);
+        },
+        
+        hexToRgb: function(hex) {
+          let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+          return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+          } : { r: 0, g: 0, b: 0 };
+        }
+      });
+      
+      // Custom component for tracking intersection
+      AFRAME.registerComponent('track-intersection', {
+        init: function() {
+          this.otherPlane = document.getElementById('plane2');
+        },
+        
+        tick: function() {
+          if (this.otherPlane) {
+            // Calculate angle between planes
+            let rot1 = this.el.getAttribute('rotation');
+            let rot2 = this.otherPlane.getAttribute('rotation');
+            
+            // Update display text if exists
+            let infoText = document.getElementById('intersection-info');
+            if (infoText) {
+              let angleDiff = Math.abs(rot1.x - rot2.x);
+              infoText.setAttribute('value', `Intersection Angle: ${Math.abs(angleDiff).toFixed(1)}°`);
+            }
+          }
+        }
+      });
+    </script>
   </head>
   <body>
     <a-scene>
-      <!-- Circle (your existing element with animation) -->
-      <a-circle id="pgb-circle" position="0 2 -3" radius="1.5" 
-                color="blue" opacity="0.8">
-        <a-animation attribute="rotation"
-                     from="0 0 0"
-                     to="0 360 0"
-                     dur="5000"
-                     repeat="indefinite"></a-animation>
-      </a-circle>
+      <!-- Green plane with custom components -->
+      <a-plane id="plane1"
+               position="0 1 -4" 
+               width="4" 
+               height="4" 
+               color="green" 
+               opacity="0.9"
+               oscillate-rotate="speed: 0.5; amplitude: 60; axis: x"
+               color-transition="speed: 0.8; color1: #00ff00; color2: #88ff88"
+               track-intersection>
+      </a-plane>
       
-      <!-- Box with color change animation -->
-      <a-box position="-2 1 -3" color="red">
+      <!-- Blue plane with opposite rotation -->
+      <a-plane id="plane2"
+               position="0 1 -4" 
+               width="4" 
+               height="4" 
+               color="blue" 
+               opacity="0.9"
+               oscillate-rotate="speed: 0.5; amplitude: -60; axis: x"
+               color-transition="speed: 0.8; color1: #0000ff; color2: #8888ff">
+      </a-plane>
+      
+      <!-- Center sphere with pulsing effect -->
+      <a-sphere position="0 1 -4" 
+                radius="0.4" 
+                color="gold"
+                pulse="speed: 3; intensity: 0.3">
         <a-animation attribute="color"
-                     from="red"
-                     to="yellow"
-                     dur="2000"
-                     direction="alternate"
-                     repeat="indefinite"></a-animation>
-      </a-box>
-      
-      <!-- Sphere with position animation -->
-      <a-sphere position="2 1 -3" radius="0.8" color="green">
-        <a-animation attribute="position"
-                     from="2 1 -3"
-                     to="2 2 -3"
-                     dur="1500"
+                     from="gold"
+                     to="orange"
+                     dur="1000"
                      direction="alternate"
                      repeat="indefinite"></a-animation>
       </a-sphere>
       
-      <!-- Ground plane -->
-      <a-plane position="0 -1 -4" rotation="-90 0 0" width="15" height="15" color="gray"></a-plane>
+      <!-- Lighting -->
+      <a-light type="ambient" intensity="0.6" color="#ffffff"></a-light>
+      <a-light type="point" intensity="1.2" position="2 5 3" color="#ffaa88"></a-light>
+      <a-light type="point" intensity="0.8" position="-2 3 2" color="#88aaff"></a-light>
+      <a-light type="directional" intensity="0.5" position="0 5 0"></a-light>
       
-      <!-- Sky background -->
-      <a-sky color="#87CEEB"></a-sky>
+      <!-- Camera with controls -->
+      <a-entity camera="wasd-controls; look-controls" position="0 3 8"></a-entity>
       
-      <!-- Basic lighting -->
-      <a-light type="ambient" intensity="0.6"></a-light>
-      <a-light type="directional" position="5 10 3" intensity="0.8"></a-light>
+      <!-- Ground reference grid -->
+      <a-entity position="0 -0.5 -4">
+        <a-grid helper="grid" size="12" divisions="12" color="#666666"></a-grid>
+      </a-entity>
+      
+      <!-- Text labels -->
+      <a-text value="Intersecting Planes with Custom Components"
+              position="0 3.5 -4"
+              align="center"
+              color="#ffffff"
+              width="6"
+              scale="0.8 0.8 0.8">
+      </a-text>
+      
+      <a-text id="intersection-info"
+              value="Intersection Angle: 0°"
+              position="0 2.8 -4"
+              align="center"
+              color="#ffaa88"
+              width="4"
+              scale="0.6 0.6 0.6">
+      </a-text>
+      
+      <a-text value="Custom: oscillate-rotate | color-transition | pulse | track-intersection"
+              position="0 -0.5 -4"
+              align="center"
+              color="#aaaaaa"
+              width="8"
+              scale="0.5 0.5 0.5">
+      </a-text>
+      
+      <!-- Background sky -->
+      <a-sky color="#0a0a2a"></a-sky>
+      
+      <!-- Fog for depth -->
+      <a-entity fog="type: linear; color: #0a0a2a; near: 5; far: 20"></a-entity>
     </a-scene>
   </body>
 </html>
