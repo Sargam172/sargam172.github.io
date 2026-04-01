@@ -24,68 +24,68 @@
         <img id="nebula" crossorigin="anonymous">
       </a-assets>
 
-      <!-- Camera with WASD movement + mouse/VR look controls -->
-      <a-entity camera="wasd-controls; look-controls" position="0 2 10"></a-entity>
+      <!-- Camera - you can now walk with WASD and look around (works with VR Mini) -->
+      <a-entity camera="wasd-controls; look-controls" position="0 3 12"></a-entity>
 
-      <!-- Dramatic lighting (makes the star glow and light up the scene) -->
+      <!-- Lighting to make the star glow beautifully against the nebula -->
       <a-light type="ambient" color="#ffffff" intensity="0.6"></a-light>
-      <a-light type="directional" color="#ffdd88" intensity="1.2" position="5 10 5"></a-light>
+      <a-light type="directional" color="#ffdd88" intensity="1.3" position="5 10 5"></a-light>
 
-      <!-- THE HUGE STAR (bright glowing sphere) -->
+      <!-- HUGE GLOWING STAR -->
       <a-sphere id="huge-star"
-                position="0 3 -8"
-                radius="4.5"
-                color="#FFEE88"
+                position="0 4 -9"
+                radius="5"
+                color="#FFEE77"
                 emissive="#FFAA00"
-                emissive-intensity="1.8"
+                emissive-intensity="2"
                 metalness="0.1"
-                roughness="0.9"
-                shadow="cast: true; receive: true">
+                roughness="0.8"
+                shadow="cast: true">
         
-        <!-- Slow rotation so the star feels alive -->
+        <!-- Slow rotation -->
         <a-animation attribute="rotation" 
                      to="0 360 0" 
-                     dur="25000" 
+                     dur="28000" 
                      repeat="indefinite" 
                      easing="linear"></a-animation>
         
-        <!-- Gentle pulsing to make it "breathe" like a real star -->
+        <!-- Gentle pulsing (makes it feel like a real star) -->
         <a-animation attribute="scale" 
                      from="1 1 1" 
-                     to="1.08 1.08 1.08" 
-                     dur="1800" 
+                     to="1.12 1.12 1.12" 
+                     dur="1600" 
                      repeat="indefinite" 
                      direction="alternate" 
                      easing="ease-in-out"></a-animation>
       </a-sphere>
 
-      <!-- "SARGAM" written directly in front of the huge star (looks like it's written ON the star) -->
+      <!-- "SARGAM" written right on the star (big, glowing yellow text) -->
       <a-text value="SARGAM"
-              position="0 3 -3.5"
+              position="0 4 -4"
               align="center"
               color="#FFFF00"
-              width="8"
+              width="9"
               font="kelsonsans"
               emissive="#FFEE00"
-              emissive-intensity="0.9"
-              scale="1.8 1.8 1.8">
+              emissive-intensity="1"
+              scale="2 2 2">
       </a-text>
 
-      <!-- Small subtitle below your name (optional nice touch) -->
-      <a-text value="A-Frame Star"
-              position="0 1 -3.5"
+      <!-- Small subtitle under your name -->
+      <a-text value="Nebula Star"
+              position="0 2 -4"
               align="center"
-              color="#FFDD88"
-              width="5"
+              color="#FFDD77"
+              width="6"
               scale="0.9 0.9 0.9"></a-text>
 
-      <!-- Keep your beautiful nebula sky -->
+      <!-- Your original nebula sky (kept exactly as you had it) -->
       <a-sky id="mySky"
              src="#nebula"
              position="-2.5 0 -1.5"></a-sky>
 
-      <!-- Very subtle fog so the star stands out in the nebula -->
-      <a-entity fog="type: exponential; color: #112233; density: 0.015"></a-entity>
+      <!-- Very light fog so the star really stands out -->
+      <a-entity fog="type: exponential; color: #112233; density: 0.018"></a-entity>
     </a-scene>
   </body>
 </html>
