@@ -4,10 +4,46 @@
     <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
   </head>
   <body>
-	<!-- <script src="../js/aframe.min.js"></script> -->
     <a-scene>
-      <a-circle  id="PGB circle" position="0 2 -1.5" segments="16" 
-					wireframe="true" rotation="0 0 0" color="blue"></a-circle>
+      <!-- Circle (your existing element with animation) -->
+      <a-circle id="pgb-circle" position="0 2 -3" radius="1.5" 
+                color="blue" opacity="0.8">
+        <a-animation attribute="rotation"
+                     from="0 0 0"
+                     to="0 360 0"
+                     dur="5000"
+                     repeat="indefinite"></a-animation>
+      </a-circle>
+      
+      <!-- Box with color change animation -->
+      <a-box position="-2 1 -3" color="red">
+        <a-animation attribute="color"
+                     from="red"
+                     to="yellow"
+                     dur="2000"
+                     direction="alternate"
+                     repeat="indefinite"></a-animation>
+      </a-box>
+      
+      <!-- Sphere with position animation -->
+      <a-sphere position="2 1 -3" radius="0.8" color="green">
+        <a-animation attribute="position"
+                     from="2 1 -3"
+                     to="2 2 -3"
+                     dur="1500"
+                     direction="alternate"
+                     repeat="indefinite"></a-animation>
+      </a-sphere>
+      
+      <!-- Ground plane -->
+      <a-plane position="0 -1 -4" rotation="-90 0 0" width="15" height="15" color="gray"></a-plane>
+      
+      <!-- Sky background -->
+      <a-sky color="#87CEEB"></a-sky>
+      
+      <!-- Basic lighting -->
+      <a-light type="ambient" intensity="0.6"></a-light>
+      <a-light type="directional" position="5 10 3" intensity="0.8"></a-light>
     </a-scene>
   </body>
 </html>
