@@ -5,79 +5,65 @@
   </head>
   <body>
     <a-scene>
-      <!-- Camera with W-A-S-D movement + mouse/VR look controls (required for VR Mini) -->
-      <a-entity camera="wasd-controls; look-controls" position="0 1.6 6"></a-entity>
+      <!-- Camera - move with WASD, look with mouse or VR Mini -->
+      <a-entity camera="wasd-controls; look-controls" position="0 2.5 9"></a-entity>
 
-      <!-- Nice lighting so transparency & blending look beautiful -->
+      <!-- Lighting for glowing additive effect -->
       <a-light type="ambient" color="#ffffff" intensity="0.7"></a-light>
-      <a-light type="directional" color="#ffeedd" intensity="1.1" position="3 5 4"></a-light>
+      <a-light type="directional" color="#ff88cc" intensity="1.5" position="5 8 6"></a-light>
 
-      <!-- SPHERE (kept your pink color, made it slightly transparent + glowing) -->
-      <a-sphere id="PGB sphere"
-                position="0 2 -5"
-                radius="0.8"
-                color="#FFCCCB"
-                transparent="true"
-                opacity="0.85"
-                metalness="0.3"
-                roughness="0.4"
-                shadow="receive: true">
-        <!-- Gentle floating animation -->
-        <a-animation attribute="position" 
-                     to="0 2.6 -5" 
-                     dur="2200" 
-                     repeat="indefinite" 
-                     direction="alternate" 
-                     easing="ease-in-out"></a-animation>
-      </a-sphere>
-
-      <!-- BOX (kept your cyan color + additive blending, improved look) -->
-      <a-box id="PGB Box"
-             position="1.2 2 -5"
-             rotation="58 45 45"
-             width="1.4" height="1.4" depth="1.4"
-             color="#11CCCB"
+      <!-- LARGE RED BOX (additive + rotating + color pulse) -->
+      <a-box id="PGB-box-red"
+             width="3" depth="3" height="3"
+             position="0 2 -6"
+             rotation="45 0 0"
+             color="#FF3366"
              transparent="true"
-             opacity="0.75"
+             opacity="0.85"
              blending="additive"
              metalness="0.2"
-             roughness="0.6"
+             roughness="0.3"
              shadow="receive: true">
-        <!-- Slow continuous rotation to show blending effect dynamically -->
-        <a-animation attribute="rotation" 
-                     to="58 405 45" 
-                     dur="12000" 
-                     repeat="indefinite" 
-                     easing="linear"></a-animation>
+        <a-animation attribute="rotation" to="405 0 0" dur="18000" repeat="indefinite" easing="linear"></a-animation>
+        <a-animation attribute="color" from="#FF3366" to="#FF88FF" dur="3000" repeat="indefinite" direction="alternate" easing="ease-in-out"></a-animation>
       </a-box>
 
-      <!-- Ground plane (receives shadows and makes the scene feel grounded) -->
-      <a-plane position="0 0 -5" 
-               rotation="-90 0 0" 
-               width="12" 
-               height="12" 
-               color="#223322"
-               shadow="receive: true"></a-plane>
+      <!-- SMALL BLUE BOX (offset so you can see the overlap glow) -->
+      <a-box id="PGB-box-blue"
+             position="0.4 2 -6"
+             rotation="0 45 0"
+             color="#00CCFF"
+             transparent="true"
+             opacity="0.8"
+             blending="additive"
+             metalness="0.3"
+             roughness="0.3"
+             shadow="receive: true">
+        <a-animation attribute="rotation" to="0 405 0" dur="10000" repeat="indefinite" easing="linear"></a-animation>
+        <a-animation attribute="scale" to="1.35 1.35 1.35" dur="1600" repeat="indefinite" direction="alternate" easing="ease-in-out"></a-animation>
+      </a-box>
 
-      <!-- Beautiful immersive sky -->
-      <a-sky color="#112233"></a-sky>
+      <!-- Floor -->
+      <a-plane position="0 0 -6" rotation="-90 0 0" width="16" height="16" color="#112233" shadow="receive: true"></a-plane>
 
-      <!-- Fog for extra depth and atmosphere -->
-      <a-entity fog="type: exponential; color: #112233; density: 0.035"></a-entity>
+      <!-- Dark futuristic sky -->
+      <a-sky color="#0F001F"></a-sky>
 
-      <!-- Title so instructor knows exactly what exercise this is -->
-      <a-text value="Transparency + Additive Blending Demo"
-              position="0 3.5 -6"
-              align="center"
-              color="#88ffff"
-              scale="1.8 1.8 1.8"></a-text>
+      <!-- Fog for depth -->
+      <a-entity fog="type: exponential; color: #0F001F; density: 0.028"></a-entity>
 
-      <!-- Small instruction text -->
-      <a-text value="WASD = move | Mouse = look around | VR Mini = head movement"
-              position="0 0.8 -6"
-              align="center"
-              color="#ffffff"
-              scale="0.8 0.8 0.8"></a-text>
+      <!-- Title -->
+      <a-text value="Additive Blending Boxes Demo" 
+              position="0 6 -8" 
+              align="center" 
+              color="#FFFFFF" 
+              scale="2.2 2.2 2.2"></a-text>
+
+      <a-text value="Watch the glowing overlap as they spin!"
+              position="0 4.5 -8" 
+              align="center" 
+              color="#88FFFF" 
+              scale="1.1 1.1 1.1"></a-text>
     </a-scene>
   </body>
 </html>
