@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Intersecting Planes – Creative Demo</title>
+    <title>Intersecting Planes – Creative Neon Demo</title>
     <script src="../js/aframe.min.js"></script>
   </head>
   <body>
@@ -10,102 +10,117 @@
       <!-- Camera with full W-A-S-D movement + mouse/VR look controls -->
       <a-entity camera="wasd-controls; look-controls" position="0 3 9"></a-entity>
 
-      <!-- Lighting for dramatic effect -->
-      <a-light type="ambient" color="#ffffff" intensity="0.6"></a-light>
-      <a-light type="directional" color="#ffddaa" intensity="1.3" position="5 8 6"></a-light>
+      <!-- Dramatic neon lighting -->
+      <a-light type="ambient" color="#ffffff" intensity="0.5"></a-light>
+      <a-light type="directional" color="#aaffff" intensity="1.4" position="5 8 6"></a-light>
 
-      <!-- FLOOR PLANE (red) – static base -->
+      <!-- FLOOR PLANE (deep neon purple) -->
       <a-plane position="0 0 -4" 
                rotation="-90 0 0" 
                width="12" 
                height="12" 
-               color="#FF4444"
+               color="#4B0082"
                shadow="receive: true"></a-plane>
 
-      <!-- GREEN PLANE – tilted + spinning animation -->
-      <a-plane id="green-plane"
+      <!-- CYAN PLANE – spinning + color-cycling animation -->
+      <a-plane id="cyan-plane"
                position="0 1 -4" 
                rotation="-45 0 0" 
                width="10" 
                height="10" 
-               color="#44FF66"
+               color="#00FFFF"
                transparent="true"
-               opacity="0.75"
-               metalness="0.1"
-               roughness="0.3"
+               opacity="0.78"
+               metalness="0.2"
+               roughness="0.2"
                shadow="receive: true">
-        <!-- Slow rotation around Y axis (creates constantly changing intersections) -->
+        <!-- Spin -->
         <a-animation attribute="rotation" 
-                     to=" -45 360 0" 
-                     dur="15000" 
+                     to="-45 360 0" 
+                     dur="14000" 
                      repeat="indefinite" 
                      easing="linear"></a-animation>
+        <!-- Color cycling (neon rainbow effect) -->
+        <a-animation attribute="color" 
+                     from="#00FFFF" 
+                     to="#FF00FF" 
+                     dur="4000" 
+                     repeat="indefinite" 
+                     direction="alternate" 
+                     easing="ease-in-out"></a-animation>
       </a-plane>
 
-      <!-- BLUE PLANE – opposite tilt + faster spin -->
-      <a-plane id="blue-plane"
+      <!-- MAGENTA PLANE – opposite spin + different color cycle -->
+      <a-plane id="magenta-plane"
                position="0 1 -4" 
                rotation="45 0 0" 
                width="10" 
                height="10" 
-               color="#4488FF"
+               color="#FF00FF"
                transparent="true"
-               opacity="0.75"
-               metalness="0.1"
-               roughness="0.3"
+               opacity="0.78"
+               metalness="0.2"
+               roughness="0.2"
                shadow="receive: true">
-        <!-- Faster rotation in opposite direction -->
+        <!-- Opposite spin -->
         <a-animation attribute="rotation" 
                      to="45 -360 0" 
                      dur="9000" 
                      repeat="indefinite" 
                      easing="linear"></a-animation>
+        <!-- Color cycling -->
+        <a-animation attribute="color" 
+                     from="#FF00FF" 
+                     to="#00FFAA" 
+                     dur="3500" 
+                     repeat="indefinite" 
+                     direction="alternate" 
+                     easing="ease-in-out"></a-animation>
       </a-plane>
 
-      <!-- Central glowing orb where all planes intersect (very cool visual) -->
+      <!-- Glowing central orb (bright white-cyan with pulse) -->
       <a-sphere position="0 1 -4" 
-                radius="0.6" 
-                color="#FFFF88" 
-                emissive="#FFEE44" 
-                emissive-intensity="0.6"
-                metalness="0.9"
-                roughness="0.1"
+                radius="0.65" 
+                color="#CCFFFF" 
+                emissive="#00FFFF" 
+                emissive-intensity="0.9"
+                metalness="0.95"
+                roughness="0.05"
                 shadow="cast: true">
-        <!-- Gentle pulsing animation -->
         <a-animation attribute="scale" 
-                     to="1.3 1.3 1.3" 
-                     dur="1200" 
+                     to="1.35 1.35 1.35" 
+                     dur="1100" 
                      repeat="indefinite" 
                      direction="alternate" 
                      easing="ease-in-out"></a-animation>
       </a-sphere>
 
-      <!-- Dramatic space-like sky -->
-      <a-sky color="#0A0A2A"></a-sky>
+      <!-- Deep neon space sky -->
+      <a-sky color="#1A0033"></a-sky>
 
-      <!-- Fog for depth and atmosphere -->
-      <a-entity fog="type: exponential; color: #0A0A2A; density: 0.025"></a-entity>
+      <!-- Fog for extra depth -->
+      <a-entity fog="type: exponential; color: #1A0033; density: 0.028"></a-entity>
 
       <!-- Title -->
       <a-text value="Creative Intersecting Planes"
-              position="0 5 -7"
+              position="0 5.2 -7"
               align="center"
               color="#FFFFFF"
-              scale="2 2 2"></a-text>
+              scale="2.1 2.1 2.1"></a-text>
 
       <!-- Subtitle -->
-      <a-text value="Watch the planes spin and blend colors where they intersect!"
-              position="0 4 -7"
+      <a-text value="Neon planes spin + colors shift live!"
+              position="0 4.1 -7"
               align="center"
-              color="#AAAAFF"
-              scale="1 1 1"></a-text>
+              color="#00FFFF"
+              scale="1.1 1.1 1.1"></a-text>
 
       <!-- Controls reminder -->
       <a-text value="WASD = move • Mouse = look • VR Mini = head tracking"
               position="0 1 -8"
               align="center"
               color="#FFFFFF"
-              scale="0.7 0.7 0.7"></a-text>
+              scale="0.75 0.75 0.75"></a-text>
     </a-scene>
   </body>
 </html>
