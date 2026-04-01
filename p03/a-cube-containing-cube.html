@@ -1,27 +1,110 @@
+<!DOCTYPE html>
 <html>
   <head>
-    <!-- <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script> -->
+    <script src="../js/aframe.min.js"></script>
   </head>
   <body>
-	<script src="../js/aframe.min.js"></script>
     <a-scene>
-      <!-- <a-sphere  id="PGB sphere" position="0 2 -1.5" radius="1" rotation="0 0 0" color="blue"></a-sphere> -->
-	  <a-box  id="PGB box" width="3"
-							 depth="3"
-							 height="3"
-							 position="0 2 -5.5" 
-							 transparent="true"
-							 blending="additive"
-							 rotation="45 0 0" color="red"></a-box>
-							 
-		<a-box	id="PGB Box" position="0 2 -5.5"
-				rotation="0 45 0"	  
-				transparent="false"
-				blending="additive"
-				color="blue"></a-box>
-							 
+      <!-- Camera with full W-A-S-D + mouse/VR controls (perfect for VR Mini) -->
+      <a-entity camera="wasd-controls; look-controls" position="0 2.5 8"></a-entity>
+
+      <!-- Lighting optimized for additive blending (makes overlaps glow brightly) -->
+      <a-light type="ambient" color="#ffffff" intensity="0.6"></a-light>
+      <a-light type="directional" color="#ff88cc" intensity="1.4" position="4 6 5"></a-light>
+
+      <!-- LARGE RED BOX – transparent + additive (your original idea kept) -->
+      <a-box id="PGB-box-red"
+             width="3" depth="3" height="3"
+             position="0 2 -5.5"
+             rotation="45 0 0"
+             color="#FF3366"
+             transparent="true"
+             opacity="0.82"
+             blending="additive"
+             metalness="0.1"
+             roughness="0.4"
+             shadow="receive: true">
+        <!-- Slow spin on X-axis + color pulse (red → magenta → orange) -->
+        <a-animation attribute="rotation" 
+                     to="405 0 0" 
+                     dur="16000" 
+                     repeat="indefinite" 
+                     easing="linear"></a-animation>
+        <a-animation attribute="color" 
+                     from="#FF3366" 
+                     to="#FF88FF" 
+                     dur="3200" 
+                     repeat="indefinite" 
+                     direction="alternate" 
+                     easing="ease-in-out"></a-animation>
+      </a-box>
+
+      <!-- SMALL BLUE BOX – non-transparent but still additive (your original idea kept) -->
+      <a-box id="PGB-box-blue"
+             position="0.3 2 -5.5"
+             rotation="0 45 0"
+             color="#00CCFF"
+             transparent="true"
+             opacity="0.75"
+             blending="additive"
+             metalness="0.3"
+             roughness="0.3"
+             shadow="receive: true">
+        <!-- Faster spin on Y-axis + gentle pulsing scale -->
+        <a-animation attribute="rotation" 
+                     to="0 405 0" 
+                     dur="9000" 
+                     repeat="indefinite" 
+                     easing="linear"></a-animation>
+        <a-animation attribute="scale" 
+                     to="1.4 1.4 1.4" 
+                     dur="1800" 
+                     repeat="indefinite" 
+                     direction="alternate" 
+                     easing="ease-in-out"></a-animation>
+      </a-box>
+
+      <!-- Floor to ground the scene and receive shadows -->
+      <a-plane position="0 0 -5.5" 
+               rotation="-90 0 0" 
+               width="14" 
+               height="14" 
+               color="#112233"
+               shadow="receive: true"></a-plane>
+
+      <!-- Dark futuristic sky -->
+      <a-sky color="#0F001F"></a-sky>
+
+      <!-- Fog for depth (makes the glowing boxes pop) -->
+      <a-entity fog="type: exponential; color: #0F001F; density: 0.032"></a-entity>
+
+      <!-- Title -->
+      <a-text value="Unique Additive Blending Boxes"
+              position="0 5.5 -7"
+              align="center"
+              color="#FFFFFF"
+              scale="2 2 2"></a-text>
+
+      <!-- Subtitle -->
+      <a-text value="Watch the glowing overlaps change as boxes spin & pulse!"
+              position="0 4.4 -7"
+              align="center"
+              color="#88FFFF"
+              scale="1.1 1.1 1.1"></a-text>
+
+      <!-- Blending modes reminder (as requested in your comment) -->
+      <a-text value="Blending: additive (red + blue = bright glow)"
+              position="0 1.2 -8"
+              align="center"
+              color="#FFAAFF"
+              scale="0.85 0.85 0.85"></a-text>
+
+      <!-- Controls info -->
+      <a-text value="WASD = move • Mouse = look • VR Mini = head tracking"
+              position="0 0.6 -8"
+              align="center"
+              color="#FFFFFF"
+              scale="0.75 0.75 0.75"></a-text>
     </a-scene>
   </body>
 </html>
-
-<!-- "additive" subtractive none multiply normal -->
