@@ -1,43 +1,91 @@
-
+<!DOCTYPE html>
 <html>
   <head>
     <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
-    <!-- <script src="../js/aframe.min.js"></script> -->
   </head>
   <body>
-
     <script>
       document.addEventListener('DOMContentLoaded', () => {
           const isLocal = ['localhost','127.0.0.1','[::1]'].includes(location.hostname);
           const src = isLocal
             ? 'http://localhost:8000/p01/IMAGES/heic2007a.jpg'
             : './IMAGES/heic2007a.jpg';
-
           const img = document.getElementById('nebula');
-          img.setAttribute('src', src);        // set it
-
-          // once assets are ready, use it
+          img.setAttribute('src', src);
           document.querySelector('a-assets').addEventListener('loaded', () => {
             document.getElementById('mySky')
               .setAttribute('material', 'src: #nebula');
           });
         });
-      </script>
-     <a-scene> 
+    </script>
+
+    <a-scene>
       <a-assets>
-          <img id="nebula" crossorigin="anonymous">
+        <img id="nebula" crossorigin="anonymous">
       </a-assets>
+
+      <!-- Camera with WASD movement + mouse/VR look controls -->
+      <a-entity camera="wasd-controls; look-controls" position="0 2 10"></a-entity>
+
+      <!-- Dramatic lighting (makes the star glow and light up the scene) -->
+      <a-light type="ambient" color="#ffffff" intensity="0.6"></a-light>
+      <a-light type="directional" color="#ffdd88" intensity="1.2" position="5 10 5"></a-light>
+
+      <!-- THE HUGE STAR (bright glowing sphere) -->
+      <a-sphere id="huge-star"
+                position="0 3 -8"
+                radius="4.5"
+                color="#FFEE88"
+                emissive="#FFAA00"
+                emissive-intensity="1.8"
+                metalness="0.1"
+                roughness="0.9"
+                shadow="cast: true; receive: true">
         
-          <a-sky id="mySky"
-            src="#nebula"	position="-2.5  0 -1.5"
-          ></a-sky>	  
-          <a-text
-            font="kelsonsans"
-            color = "#FFFFFF"
-            value="HELLO A-Frame from EARTH!!!"
-            width="6"
-        position="0 -1 -5"
-          ></a-text>
+        <!-- Slow rotation so the star feels alive -->
+        <a-animation attribute="rotation" 
+                     to="0 360 0" 
+                     dur="25000" 
+                     repeat="indefinite" 
+                     easing="linear"></a-animation>
+        
+        <!-- Gentle pulsing to make it "breathe" like a real star -->
+        <a-animation attribute="scale" 
+                     from="1 1 1" 
+                     to="1.08 1.08 1.08" 
+                     dur="1800" 
+                     repeat="indefinite" 
+                     direction="alternate" 
+                     easing="ease-in-out"></a-animation>
+      </a-sphere>
+
+      <!-- "SARGAM" written directly in front of the huge star (looks like it's written ON the star) -->
+      <a-text value="SARGAM"
+              position="0 3 -3.5"
+              align="center"
+              color="#FFFF00"
+              width="8"
+              font="kelsonsans"
+              emissive="#FFEE00"
+              emissive-intensity="0.9"
+              scale="1.8 1.8 1.8">
+      </a-text>
+
+      <!-- Small subtitle below your name (optional nice touch) -->
+      <a-text value="A-Frame Star"
+              position="0 1 -3.5"
+              align="center"
+              color="#FFDD88"
+              width="5"
+              scale="0.9 0.9 0.9"></a-text>
+
+      <!-- Keep your beautiful nebula sky -->
+      <a-sky id="mySky"
+             src="#nebula"
+             position="-2.5 0 -1.5"></a-sky>
+
+      <!-- Very subtle fog so the star stands out in the nebula -->
+      <a-entity fog="type: exponential; color: #112233; density: 0.015"></a-entity>
     </a-scene>
   </body>
 </html>
