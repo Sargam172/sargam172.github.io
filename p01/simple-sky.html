@@ -4,88 +4,26 @@
     <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
   </head>
   <body>
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-          const isLocal = ['localhost','127.0.0.1','[::1]'].includes(location.hostname);
-          const src = isLocal
-            ? 'http://localhost:8000/p01/IMAGES/heic2007a.jpg'
-            : './IMAGES/heic2007a.jpg';
-          const img = document.getElementById('nebula');
-          img.setAttribute('src', src);
-          document.querySelector('a-assets').addEventListener('loaded', () => {
-            document.getElementById('mySky')
-              .setAttribute('material', 'src: #nebula');
-          });
-        });
-    </script>
-
     <a-scene>
-      <a-assets>
-        <img id="nebula" crossorigin="anonymous">
-      </a-assets>
-
-      <!-- Camera - you can now walk with WASD and look around (works with VR Mini) -->
+      <!-- Simple working sky color instead of image -->
+      <a-sky color="#0a0a2a"></a-sky>
+      
+      <!-- Camera -->
       <a-entity camera="wasd-controls; look-controls" position="0 3 12"></a-entity>
-
-      <!-- Lighting to make the star glow beautifully against the nebula -->
-      <a-light type="ambient" color="#ffffff" intensity="0.6"></a-light>
-      <a-light type="directional" color="#ffdd88" intensity="1.3" position="5 10 5"></a-light>
-
-      <!-- HUGE GLOWING STAR -->
-      <a-sphere id="huge-star"
-                position="0 4 -9"
-                radius="5"
-                color="#FFEE77"
-                emissive="#FFAA00"
-                emissive-intensity="2"
-                metalness="0.1"
-                roughness="0.8"
-                shadow="cast: true">
-        
-        <!-- Slow rotation -->
-        <a-animation attribute="rotation" 
-                     to="0 360 0" 
-                     dur="28000" 
-                     repeat="indefinite" 
-                     easing="linear"></a-animation>
-        
-        <!-- Gentle pulsing (makes it feel like a real star) -->
-        <a-animation attribute="scale" 
-                     from="1 1 1" 
-                     to="1.12 1.12 1.12" 
-                     dur="1600" 
-                     repeat="indefinite" 
-                     direction="alternate" 
-                     easing="ease-in-out"></a-animation>
+      
+      <!-- Lights -->
+      <a-light type="ambient" intensity="0.5"></a-light>
+      <a-light type="point" intensity="1.5" position="0 5 0"></a-light>
+      
+      <!-- Star -->
+      <a-sphere position="0 4 -9" radius="5" color="#FFEE77" emissive="#FFAA00" emissive-intensity="2">
+        <a-animation attribute="rotation" to="0 360 0" dur="28000" repeat="indefinite"></a-animation>
+        <a-animation attribute="scale" from="1 1 1" to="1.12 1.12 1.12" dur="1600" repeat="indefinite" direction="alternate"></a-animation>
       </a-sphere>
-
-      <!-- "SARGAM" written right on the star (big, glowing yellow text) -->
-      <a-text value="SARGAM"
-              position="0 4 -4"
-              align="center"
-              color="#FFFF00"
-              width="9"
-              font="kelsonsans"
-              emissive="#FFEE00"
-              emissive-intensity="1"
-              scale="2 2 2">
-      </a-text>
-
-      <!-- Small subtitle under your name -->
-      <a-text value="Nebula Star"
-              position="0 2 -4"
-              align="center"
-              color="#FFDD77"
-              width="6"
-              scale="0.9 0.9 0.9"></a-text>
-
-      <!-- Your original nebula sky (kept exactly as you had it) -->
-      <a-sky id="mySky"
-             src="#nebula"
-             position="-2.5 0 -1.5"></a-sky>
-
-      <!-- Very light fog so the star really stands out -->
-      <a-entity fog="type: exponential; color: #112233; density: 0.018"></a-entity>
+      
+      <!-- Text -->
+      <a-text value="SARGAM" position="0 4 -4" color="#FFFF00" scale="2 2 2"></a-text>
+      <a-text value="Nebula Star" position="0 2 -4" color="#FFDD77"></a-text>
     </a-scene>
   </body>
 </html>
