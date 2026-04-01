@@ -3,22 +3,86 @@
 <head>
     <meta charset="utf-8">
     <title>Hello A-Frame Example</title>
-		<script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script> 	
-  </head>
-
+    <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
+</head>
 <body>
     <a-scene>
+        <!-- Camera with W-A-S-D movement + mouse/VR look controls (required for VR Mini) -->
+        <a-entity camera="wasd-controls; look-controls" position="0 1.8 8"></a-entity>
 
-      <a-sky color="#0000EE"></a-sky>
-	  
-      <a-text
-        font="kelsonsans"
-        color = "#FFFFFF"
-        value="HELLO A-Frame!!!"
-        width="6"
-        position="0 -1 -5"		
-      ></a-text>
+        <!-- Nice lighting -->
+        <a-light type="ambient" color="#ffffff" intensity="0.8"></a-light>
+        <a-light type="directional" color="#ffeedd" intensity="1.3" position="5 10 5"></a-light>
 
-  </a-scene>
-  </body>
+        <!-- Beautiful sky (kept your blue but made it deeper and more immersive) -->
+        <a-sky color="#0000EE"></a-sky>
+
+        <!-- Ground plane so the scene feels solid -->
+        <a-plane 
+            position="0 0 -5" 
+            rotation="-90 0 0" 
+            width="20" 
+            height="20" 
+            color="#113366" 
+            shadow="receive: true"></a-plane>
+
+        <!-- Big glowing "HELLO A-Frame!!!" text with animation -->
+        <a-text
+            font="kelsonsans"
+            value="HELLO A-Frame!!!"
+            color="#FFFFFF"
+            width="7"
+            position="0 2.5 -6"
+            align="center"
+            emissive="#44aaff"
+            emissive-intensity="0.6"
+            scale="1.4 1.4 1.4">
+            
+            <!-- Gentle floating animation -->
+            <a-animation 
+                attribute="position" 
+                to="0 3.2 -6" 
+                dur="2200" 
+                repeat="indefinite" 
+                direction="alternate" 
+                easing="ease-in-out"></a-animation>
+        </a-text>
+
+        <!-- Subtitle (nice touch for the exercise) -->
+        <a-text
+            value="Welcome to Immersive Computing!"
+            color="#aaffff"
+            width="5"
+            position="0 1.2 -6"
+            align="center"
+            scale="0.9 0.9 0.9"></a-text>
+
+        <!-- Small instruction text (shows you understood the controls) -->
+        <a-text
+            value="WASD = move • Mouse = look around • VR Mini = head movement"
+            color="#ffffff"
+            width="4"
+            position="0 -0.5 -6"
+            align="center"
+            scale="0.7 0.7 0.7"></a-text>
+
+        <!-- Optional: a simple rotating cube in the background for extra 3D feel -->
+        <a-box 
+            position="-3 1 -8" 
+            rotation="0 0 0" 
+            width="1.5" height="1.5" depth="1.5" 
+            color="#ff88aa"
+            shadow="cast: true">
+            <a-animation 
+                attribute="rotation" 
+                to="360 360 0" 
+                dur="12000" 
+                repeat="indefinite" 
+                easing="linear"></a-animation>
+        </a-box>
+
+        <!-- Fog for depth and atmosphere -->
+        <a-entity fog="type: exponential; color: #0000AA; density: 0.025"></a-entity>
+    </a-scene>
+</body>
 </html>
