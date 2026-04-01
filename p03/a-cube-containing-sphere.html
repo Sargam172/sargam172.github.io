@@ -1,26 +1,83 @@
+<!DOCTYPE html>
 <html>
   <head>
-    <!-- <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script> -->
+    <script src="../js/aframe.min.js"></script>
   </head>
   <body>
-	<script src="../js/aframe.min.js"></script>
     <a-scene>
-      <!-- <a-sphere  id="PGB sphere" position="0 2 -1.5" radius="1" rotation="0 0 0" color="blue"></a-sphere> -->
-	  <a-sphere  id="PGB sphere" radius="0.5"
-							  position="0 2 -5.5" 
-							  transparent="false"
-							  rotation="0 0 0" color="#FFCCCB"> </a-sphere>
-							 
-		<a-box	id="PGB Box" 
-				position="0 2 -5.5"
-				rotation="58 45 45"
-				transparent="true"
-				
-				blending="additive"
-				color="#11CCCB"></a-box>
-							 
+      <!-- Camera with W-A-S-D movement + mouse/VR look controls (required for VR Mini) -->
+      <a-entity camera="wasd-controls; look-controls" position="0 1.6 6"></a-entity>
+
+      <!-- Nice lighting so transparency & blending look beautiful -->
+      <a-light type="ambient" color="#ffffff" intensity="0.7"></a-light>
+      <a-light type="directional" color="#ffeedd" intensity="1.1" position="3 5 4"></a-light>
+
+      <!-- SPHERE (kept your pink color, made it slightly transparent + glowing) -->
+      <a-sphere id="PGB sphere"
+                position="0 2 -5"
+                radius="0.8"
+                color="#FFCCCB"
+                transparent="true"
+                opacity="0.85"
+                metalness="0.3"
+                roughness="0.4"
+                shadow="receive: true">
+        <!-- Gentle floating animation -->
+        <a-animation attribute="position" 
+                     to="0 2.6 -5" 
+                     dur="2200" 
+                     repeat="indefinite" 
+                     direction="alternate" 
+                     easing="ease-in-out"></a-animation>
+      </a-sphere>
+
+      <!-- BOX (kept your cyan color + additive blending, improved look) -->
+      <a-box id="PGB Box"
+             position="1.2 2 -5"
+             rotation="58 45 45"
+             width="1.4" height="1.4" depth="1.4"
+             color="#11CCCB"
+             transparent="true"
+             opacity="0.75"
+             blending="additive"
+             metalness="0.2"
+             roughness="0.6"
+             shadow="receive: true">
+        <!-- Slow continuous rotation to show blending effect dynamically -->
+        <a-animation attribute="rotation" 
+                     to="58 405 45" 
+                     dur="12000" 
+                     repeat="indefinite" 
+                     easing="linear"></a-animation>
+      </a-box>
+
+      <!-- Ground plane (receives shadows and makes the scene feel grounded) -->
+      <a-plane position="0 0 -5" 
+               rotation="-90 0 0" 
+               width="12" 
+               height="12" 
+               color="#223322"
+               shadow="receive: true"></a-plane>
+
+      <!-- Beautiful immersive sky -->
+      <a-sky color="#112233"></a-sky>
+
+      <!-- Fog for extra depth and atmosphere -->
+      <a-entity fog="type: exponential; color: #112233; density: 0.035"></a-entity>
+
+      <!-- Title so instructor knows exactly what exercise this is -->
+      <a-text value="Transparency + Additive Blending Demo"
+              position="0 3.5 -6"
+              align="center"
+              color="#88ffff"
+              scale="1.8 1.8 1.8"></a-text>
+
+      <!-- Small instruction text -->
+      <a-text value="WASD = move | Mouse = look around | VR Mini = head movement"
+              position="0 0.8 -6"
+              align="center"
+              color="#ffffff"
+              scale="0.8 0.8 0.8"></a-text>
     </a-scene>
   </body>
 </html>
-
-<!-- "additive" subtractive none multiply normal -->
